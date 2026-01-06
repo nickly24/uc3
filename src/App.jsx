@@ -63,7 +63,11 @@ function BottomBar({ setView }) {
     <div className="bottom-bar">
       <button
         className="bottom-bar-item"
-        onClick={() => setView(VIEWS.ORDER_HISTORY)}
+        onClick={(e) => {
+          e.stopPropagation()
+          console.log('История clicked')
+          setView(VIEWS.ORDER_HISTORY)
+        }}
       >
         <span className="bottom-bar-item-icon">📋</span>
         <span className="bottom-bar-item-text">История</span>
@@ -90,20 +94,31 @@ function BottomBar({ setView }) {
 
 function App() {
   const [view, setView] = useState(VIEWS.HOME)
+  const [previousView, setPreviousView] = useState(VIEWS.HOME)
   const [codeQuantities, setCodeQuantities] = useState({})
   const [cartQuantities, setCartQuantities] = useState({ 1: 2, 2: 1 })
   const [selectedAutoPack, setSelectedAutoPack] = useState(
     AUTO_PACKS[0],
   )
+  const [showInstructions, setShowInstructions] = useState(false)
+  const [showHelp, setShowHelp] = useState(false)
 
   const updateCodeQuantity = (id, delta) => {
     setCodeQuantities((prev) => {
       const current = prev[id] || 0
       const newValue = Math.max(0, current + delta)
+      
+      // Если выбираем новый код (newValue === 1), сбрасываем все остальные
+      if (newValue === 1) {
+        return { [id]: 1 }
+      }
+      
+      // Если снимаем выбор (newValue === 0), просто удаляем
       if (newValue === 0) {
         const { [id]: removed, ...rest } = prev
         return rest
       }
+      
       return { ...prev, [id]: newValue }
     })
   }
@@ -222,6 +237,34 @@ function App() {
             <h1 className="page-title">Покупка кодов</h1>
           </div>
 
+          <div className="pubg-info-section">
+            <div className="pubg-info-header">
+              <img src="/img/pubg.png" alt="PUBG" className="pubg-info-logo" />
+              <span className="pubg-info-title">PUBG Mobile</span>
+            </div>
+            <div className="pubg-info-warning">
+              <p className="pubg-warning-text">
+                Внимание: после покупки вы получите код на почту — потребуется активировать согласно{' '}
+                <button
+                  className="pubg-warning-link"
+                  onClick={() => setView(VIEWS.INSTRUCTIONS)}
+                >
+                  инструкция
+                </button>
+              </p>
+              <button
+                className="pubg-my-codes-btn"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  console.log('Мои коды clicked')
+                  setView(VIEWS.MY_CODES)
+                }}
+              >
+                Мои коды
+              </button>
+            </div>
+          </div>
+
           <div className="code-cards">
             {CODE_OPTIONS.map((code, index) => {
               const quantity = codeQuantities[code.id] || 0
@@ -230,6 +273,13 @@ function App() {
                   key={code.id}
                   className={`code-card ${quantity > 0 ? 'selected' : ''}`}
                   style={{ animationDelay: `${index * 0.1}s` }}
+                  onClick={() => {
+                    if (quantity > 0) {
+                      updateCodeQuantity(code.id, -1)
+                    } else {
+                      updateCodeQuantity(code.id, 1)
+                    }
+                  }}
                 >
                   <div className="code-card-content">
                     <div className="code-card-icon-wrapper">
@@ -241,22 +291,6 @@ function App() {
                         <p className="code-card-old-price">{code.oldPrice} ₽</p>
                       )}
                       <p className="code-card-price">{code.price} ₽</p>
-                    </div>
-                    <div className="code-card-controls">
-                      <button
-                        className="code-card-btn minus"
-                        onClick={() => updateCodeQuantity(code.id, -1)}
-                        disabled={quantity === 0}
-                      >
-                        −
-                      </button>
-                      <span className="code-card-quantity">{quantity}</span>
-                      <button
-                        className="code-card-btn plus"
-                        onClick={() => updateCodeQuantity(code.id, 1)}
-                      >
-                        +
-                      </button>
                     </div>
                   </div>
                 </div>
@@ -403,7 +437,6 @@ function App() {
   }
 
   const renderMyCodes = () => {
-    const [showInstructions, setShowInstructions] = useState(false)
 
     const codes = [
       {
@@ -528,7 +561,7 @@ function App() {
         <div className="page-header">
           <button
             className="back-button"
-            onClick={() => setView(VIEWS.MY_CODES)}
+            onClick={() => setView(VIEWS.CODE_PURCHASE)}
           >
             ←
           </button>
@@ -611,7 +644,6 @@ function App() {
   )
 
   const renderOrderHistory = () => {
-    const [showHelp, setShowHelp] = useState(false)
 
     const orders = [
       {

@@ -31,6 +31,8 @@
   background: transparent;
   border: none;
   color: var(--tg-theme-text-color);
+  position: relative;
+  z-index: 10;
 }
 
 .bottom-bar-item:active {
