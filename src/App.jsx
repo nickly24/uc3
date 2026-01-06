@@ -15,12 +15,12 @@ const VIEWS = {
 }
 
 const CODE_OPTIONS = [
-  { id: 1, value: 60, price: 50 },
-  { id: 2, value: 325, price: 250 },
-  { id: 3, value: 660, price: 500 },
-  { id: 4, value: 1800, price: 1300 },
-  { id: 5, value: 3850, price: 2700 },
-  { id: 6, value: 8100, price: 5500 },
+  { id: 1, value: 60, price: 75, oldPrice: 78 },
+  { id: 2, value: 325, price: 369, oldPrice: 409 },
+  { id: 3, value: 660, price: 737, oldPrice: 780 },
+  { id: 4, value: 1800, price: 1979, oldPrice: 1979 },
+  { id: 5, value: 3850, price: 3899, oldPrice: 3899 },
+  { id: 6, value: 8100, price: 7649, oldPrice: 7649 },
 ]
 
 const AUTO_PACKS = [
@@ -141,30 +141,25 @@ function App() {
     <div className="home-page">
       <div className="page-container">
         <div className="main-card">
-          <div
-            className="main-card-bg"
-            style={{
-              backgroundImage: `url(/img/фон мисс бот копия.jpg)`,
-            }}
-          ></div>
-          <div className="main-card-content">
-            <div className="main-card-icon">🎮</div>
-            <h2 className="main-card-title">PUBG Mobile</h2>
-            <p className="main-card-subtitle">Пополнение UC</p>
-            <button
-              className="btn btn-primary main-card-button"
-              onClick={() => setView(VIEWS.CODE_PURCHASE)}
-            >
-              Пополнить
-            </button>
+          <div className="main-card-banner">
+            <img src="/img/banner.jpg" alt="Banner" className="banner-image" />
           </div>
-        </div>
-
-        <div className="stars-card disabled">
-          <div className="stars-card-content">
-            <div className="stars-card-icon">⭐</div>
-            <h3 className="stars-card-title">TG STARS</h3>
-            <p className="stars-card-subtitle">Недоступно</p>
+          <div className="main-card-content">
+            <div className="main-card-header">
+              <div className="main-card-logo-section">
+                <img src="/img/pubg.png" alt="PUBG" className="pubg-logo" />
+                <div className="main-card-text">
+                  <h2 className="main-card-title">PUBG Mobile</h2>
+                  <p className="main-card-subtitle">Пополнение UC</p>
+                </div>
+              </div>
+              <button
+                className="btn btn-primary main-card-button"
+                onClick={() => setView(VIEWS.CODE_PURCHASE)}
+              >
+                Пополнить
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -237,8 +232,14 @@ function App() {
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="code-card-content">
+                    <div className="code-card-icon-wrapper">
+                      <img src="/img/icon.png" alt="UC" className="code-card-icon" />
+                    </div>
                     <div className="code-card-info">
                       <h3 className="code-card-value">{code.value} UC</h3>
+                      {code.oldPrice && (
+                        <p className="code-card-old-price">{code.oldPrice} ₽</p>
+                      )}
                       <p className="code-card-price">{code.price} ₽</p>
                     </div>
                     <div className="code-card-controls">
