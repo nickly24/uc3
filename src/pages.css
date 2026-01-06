@@ -12,7 +12,7 @@
 }
 
 .page-container {
-  padding: 20px 16px;
+  padding: 0;
   padding-bottom: 100px;
   position: relative;
   z-index: 1;
@@ -21,6 +21,8 @@
   visibility: visible !important;
   width: 100%;
   box-sizing: border-box;
+  margin: 0;
+  overflow-x: hidden;
 }
 
 .main-card {
@@ -207,8 +209,11 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   margin-top: 20px;
+  margin-left: 0;
+  margin-right: 0;
   width: 100%;
   box-sizing: border-box;
+  padding: 0;
 }
 
 .code-card {
@@ -218,6 +223,8 @@
   transition: all 0.3s ease;
   animation: fadeIn 0.4s ease-out both;
   border: 2px solid transparent;
+  box-sizing: border-box;
+  margin: 0;
 }
 
 .code-card.selected {
@@ -292,6 +299,8 @@
 
 .my-codes-button {
   margin-top: 24px;
+  margin-left: 16px;
+  margin-right: 16px;
   padding: 12px 24px;
   background: transparent;
   border: 2px solid var(--primary-pink);
@@ -300,8 +309,9 @@
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  width: 100%;
+  width: calc(100% - 32px);
   transition: all 0.3s;
+  box-sizing: border-box;
 }
 
 .my-codes-button:active {
@@ -1101,8 +1111,11 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   margin-top: 20px;
+  margin-left: 0;
+  margin-right: 0;
   width: 100%;
   box-sizing: border-box;
+  padding: 0;
 }
 
 .auto-pack-card {
@@ -1110,11 +1123,13 @@
   border-radius: 16px;
   padding: 20px 16px;
   cursor: pointer;
-  transition: all 0.3s.ease;
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  animation: fadeIn 0.4s.ease-out both;
+  animation: fadeIn 0.4s ease-out both;
   border: 2px solid transparent;
+  box-sizing: border-box;
+  margin: 0;
 }
 
 .auto-pack-card::before {
